@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 import org.dozer.DozerBeanMapper;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,6 @@ public class MixController {
     @Produces("application/json")
     @Security(role = Role.ADMIN)
     @POST
-    @Transactional
     public CreateResponse create(hu.tilos.radio.backend.data.types.MixData objectToSave) {
         DBObject newObject = mapper.map(objectToSave, BasicDBObject.class);
         db.getCollection("mix").insert(newObject);
@@ -76,7 +74,6 @@ public class MixController {
      */
     @Produces("application/json")
     @Security(role = Role.ADMIN)
-    @Transactional
     @PUT
     @Path("/{id}")
     public UpdateResponse update(@PathParam("id") String alias, hu.tilos.radio.backend.data.types.MixData objectToSave) {
@@ -91,7 +88,6 @@ public class MixController {
      */
     @Produces("application/json")
     @Security(role = Role.ADMIN)
-    @Transactional
     @DELETE
     @Path("/{id}")
     public boolean delete(@PathParam("id") String id) {

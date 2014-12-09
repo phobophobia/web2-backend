@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 import org.dozer.DozerBeanMapper;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ public class TextController {
     @Path("/{type}")
     @Security(role = Role.GUEST)
     @Produces("application/json")
-    @Transactional
     public List<TextDataSimple> list(@PathParam("type") String type) {
         BasicDBObject query = new BasicDBObject("type", type);
         DBCursor pages = db.getCollection("page").find(query);
@@ -50,7 +48,6 @@ public class TextController {
     @Path("/{type}/{id}")
     @Security(role = Role.GUEST)
     @Produces("application/json")
-    @Transactional
     public TextData get(@PathParam("id") String alias, @PathParam("type") String type) {
         return mapper.map(db.getCollection("page").findOne(aliasOrId(alias)), TextData.class);
     }
@@ -63,7 +60,6 @@ public class TextController {
     @Path("/{type}/{id}")
     @Security(role = Role.ADMIN)
     @PUT
-    @Transactional
     public UpdateResponse update(@PathParam("type") String type, @PathParam("id") String alias, TextToSave objectToSave) {
         DBObject original = db.getCollection("page").findOne(aliasOrId(alias));
         mapper.map(objectToSave, original);
@@ -78,7 +74,6 @@ public class TextController {
     @Path("/{type}")
     @Security(role = Role.ADMIN)
     @POST
-    @Transactional
     public CreateResponse create(@PathParam("type") String type, TextToSave objectToSave) {
         DBObject newObject = mapper.map(objectToSave, BasicDBObject.class);
         newObject.put("format", "default");

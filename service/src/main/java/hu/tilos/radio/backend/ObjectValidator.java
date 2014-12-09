@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class ObjectValidator {
 
-    @Inject
+    //@Inject
     private Validator validator;
 
     public void validate(Object o) {

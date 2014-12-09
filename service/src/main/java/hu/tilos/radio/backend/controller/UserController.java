@@ -11,7 +11,6 @@ import hu.tilos.radio.backend.data.UserInfo;
 import org.dozer.DozerBeanMapper;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,7 +36,6 @@ public class UserController {
     @Produces("application/json")
     @Security(role = Role.GUEST)
     @GET
-    @Transactional
     public UserInfo me() {
         DBObject userObject = db.getCollection("user").findOne(new BasicDBObject("username", session.getCurrentUser().getUsername()));
         UserInfo user = mapper.map(userObject, UserInfo.class);

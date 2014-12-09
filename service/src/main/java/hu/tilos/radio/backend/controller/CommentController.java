@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.*;
 
@@ -100,7 +99,6 @@ public class CommentController {
     @Path("/approve/{id}")
     @Security(role = Role.ADMIN)
     @Produces("application/json")
-    @Transactional
     public CommentData approve(@PathParam("id") String id) {
         DBObject comment = db.getCollection("comment").findOne(new BasicDBObject("_id", id));
         comment.put("status", CommentStatus.ACCEPTED);
@@ -115,7 +113,6 @@ public class CommentController {
     @Path("/approve/{id}")
     @Security(role = Role.ADMIN)
     @Produces("application/json")
-    @Transactional
     public void delete(@PathParam("id") int id) {
         db.getCollection("comment").remove(new BasicDBObject("_id", id));
     }
@@ -128,7 +125,6 @@ public class CommentController {
     @Security(role = Role.USER)
     @Path("/{type}/{identifier}")
     @POST
-    @Transactional
     public CreateResponse create(@PathParam("type") CommentType type, @PathParam("identifier") int id, CommentToSave data) {
         BasicDBObject comment = modelMapper.map(data, BasicDBObject.class);
         comment.put("type", type.ordinal());

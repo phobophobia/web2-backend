@@ -1,16 +1,17 @@
 package hu.tilos.radio.backend.controller;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import hu.radio.tilos.model.Role;
 import hu.tilos.radio.backend.Security;
 import hu.tilos.radio.backend.Session;
-import hu.tilos.radio.backend.data.UserInfo;
 import hu.tilos.radio.backend.data.input.AuthorToSave;
 import hu.tilos.radio.backend.data.response.CreateResponse;
 import hu.tilos.radio.backend.data.response.UpdateResponse;
 import hu.tilos.radio.backend.data.types.AuthorDetailed;
 import hu.tilos.radio.backend.data.types.AuthorListElement;
-import hu.tilos.radio.backend.data.types.UserDetailed;
 import hu.tilos.radio.backend.util.AvatarLocator;
 import org.bson.types.ObjectId;
 import org.dozer.DozerBeanMapper;
@@ -18,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,19 +34,18 @@ public class AuthorController {
     Session session;
 
     @Inject
+    AvatarLocator avatarLocator;
+
+    @Inject
     private DozerBeanMapper mapper;
 
     @Inject
     private DB db;
 
-    @Inject
-    AvatarLocator avatarLocator;
-
     @Produces("application/json")
     @Path("/")
     @Security(role = Role.GUEST)
     @GET
-    @Transactional
     public List<AuthorListElement> list() {
 
         DBCursor selectedAuthors = db.getCollection("author").find();
@@ -63,7 +62,6 @@ public class AuthorController {
     @Path("/{alias}")
     @Security(role = Role.GUEST)
     @GET
-    @Transactional
     public AuthorDetailed get(@PathParam("alias") String alias) {
         DBObject one = findAuthor(alias);
         AuthorDetailed author = mapper.map(one, AuthorDetailed.class);
@@ -88,7 +86,6 @@ public class AuthorController {
     @Path("/{alias}")
     @Security(permission = "/author/{alias}")
     @PUT
-    @Transactional
     public UpdateResponse update(@PathParam("alias") String alias, AuthorToSave authorToSave) {
         DBObject author = findAuthor(alias);
         mapper.map(authorToSave, author);
@@ -98,7 +95,6 @@ public class AuthorController {
     }
 
 
-
     /**
      * @exclude
      */
@@ -106,7 +102,6 @@ public class AuthorController {
     @Path("/")
     @Security(role = Role.ADMIN)
     @POST
-    @Transactional
     public CreateResponse create(AuthorToSave authorToSave) {
         DBObject author = mapper.map(authorToSave, BasicDBObject.class);
         db.getCollection("author").insert(author);

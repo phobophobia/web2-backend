@@ -35,8 +35,7 @@ public class DataFixController {
     @GET
     @Path("/tags")
     @Security(role = Role.ADMIN)
-    @Transactional
-    public void fixTags() throws NotSupportedException, SystemException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+    public void fixTags() throws Exception {
         LOG.info("Starting to fix tags");
         DBCursor contents = db.getCollection("episode").find(new BasicDBObject("text", new BasicDBObject("$exists", true)));
         for (DBObject episode : contents) {

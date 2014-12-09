@@ -3,7 +3,6 @@ package hu.tilos.radio.backend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.ext.Provider;
@@ -22,5 +21,4 @@ public class LoggingFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         LOG.debug(requestContext.getMethod() + " " + requestContext.getUriInfo().getPath());
     }
-
 }

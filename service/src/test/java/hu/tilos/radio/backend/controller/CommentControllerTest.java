@@ -1,24 +1,18 @@
 package hu.tilos.radio.backend.controller;
 
 import com.github.fakemongo.junit.FongoRule;
-import hu.radio.tilos.model.type.CommentStatus;
 import hu.radio.tilos.model.type.CommentType;
 import hu.tilos.radio.backend.*;
-import hu.tilos.radio.backend.data.input.CommentToSave;
-import hu.tilos.radio.backend.data.response.CreateResponse;
 import hu.tilos.radio.backend.data.types.CommentData;
 import org.hamcrest.Matchers;
 import org.jglue.cdiunit.ActivatedAlternatives;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
-import org.jglue.cdiunit.InRequestScope;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static hu.tilos.radio.backend.MongoTestUtil.loadTo;
@@ -47,7 +41,7 @@ public class CommentControllerTest {
     @Test
     public void list() {
         //given
-        loadTo(fongoRule,"comment","comment-list-comment1.json");
+        loadTo(fongoRule, "comment", "comment-list-comment1.json");
 
         //when
         List<CommentData> list = controller.list(CommentType.EPISODE, "1");

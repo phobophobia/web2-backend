@@ -2,14 +2,23 @@ package hu.tilos.radio.backend;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
+/*import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;*/
 import hu.radio.tilos.model.Role;
 import hu.tilos.radio.backend.data.Token;
 import hu.tilos.radio.backend.data.UserInfo;
 import hu.tilos.radio.backend.util.JWTEncoder;
 import org.dozer.DozerBeanMapper;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.ext.Provider;
+import java.lang.reflect.Method;
+
+/*
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -17,13 +26,11 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.Provider;
-import java.io.IOException;
-import java.lang.reflect.Method;
+import javax.ws.rs.core.Response;*/
 
 @Provider
-public class AuthenticationFilter implements ContainerRequestFilter {
+public class AuthenticationFilter /*implements ContainerRequestFilter */{
+/*
 
     private static Logger LOG = LoggerFactory.getLogger(AuthenticationFilter.class);
 
@@ -43,7 +50,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Configuration(name = "auth.url")
     private String serverUrl;
 
-    @Inject
+    @javax.inject.Inject
     private DB db;
 
     @Inject
@@ -59,8 +66,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     @Override
-    @Transactional()
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public ContainerRequest filter(ContainerRequest request) {
         String bearer = servletRequest.getHeader("Bearer");
         if (bearer != null && bearer.length() > 10) {
             try {
@@ -122,4 +128,5 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         return permission;
     }
 
+    */
 }

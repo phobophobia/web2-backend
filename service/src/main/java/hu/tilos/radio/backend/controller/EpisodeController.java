@@ -21,10 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
 import java.util.*;
 
 import static hu.tilos.radio.backend.MongoUtil.aliasOrId;
@@ -64,7 +62,6 @@ public class EpisodeController {
     @Path("/")
     @Security(role = Role.GUEST)
     @Produces("application/json")
-    @Transactional
     public Response listEpisodes(@QueryParam("start") long from, @QueryParam("end") long to) {
         Date fromDate = new Date();
         fromDate.setTime(from);
@@ -137,7 +134,6 @@ public class EpisodeController {
     @Path("/{show}/{year}/{month}/{day}")
     @Security(role = Role.GUEST)
     @Produces("application/json")
-    @Transactional
     public EpisodeData getByDate(@PathParam("show") String showAlias, @PathParam("year") int year, @PathParam("month") int month, @PathParam("day") int day) {
         BasicDBObject show = (BasicDBObject) db.getCollection("show").findOne(aliasOrId(showAlias));
         String showId = show.get("_id").toString();
@@ -157,7 +153,6 @@ public class EpisodeController {
     @Produces("application/json")
     @Security(role = Role.AUTHOR)
     @POST
-    @Transactional
     public CreateResponse create(EpisodeToSave entity) {
 
 
@@ -190,7 +185,6 @@ public class EpisodeController {
      */
     @Produces("application/json")
     @Security(role = Role.AUTHOR)
-    @Transactional
     @PUT
     @Path("/{id}")
     public UpdateResponse update(@PathParam("id") String alias, EpisodeToSave objectToSave) {

@@ -1,0 +1,7 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 4002
+  adminConnectors:
+    - type: http
+      port: 4003

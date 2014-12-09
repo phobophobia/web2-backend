@@ -22,9 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -80,7 +78,6 @@ public class AuthController {
      */
     @Produces("application/json")
     @Security(role = Role.GUEST)
-    @Transactional
     @POST
     @Path("/password_reset")
     public Response passwordReset(PasswordReset passwordReset) {
@@ -186,7 +183,6 @@ public class AuthController {
     @POST
     public Response login(LoginData loginData) {
 
-        try {
             DBObject user = db.getCollection("user").findOne(new BasicDBObject("username", loginData.getUsername()));
             if (user == null) {
                 return Response.status(Response.Status.FORBIDDEN).build();
@@ -200,9 +196,7 @@ public class AuthController {
             } else {
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
-        } catch (NoResultException ex) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
     }
 
     private String createToken(String username, Role role) {
@@ -219,7 +213,6 @@ public class AuthController {
     @Path("/register")
     @Produces("application/json")
     @Security(role = Role.GUEST)
-    @Transactional
     @POST
     public Response register(RegisterData registerData) {
         if (!checkCaptcha(registerData.getCaptchaChallenge(), registerData.getCaptchaResponse())) {

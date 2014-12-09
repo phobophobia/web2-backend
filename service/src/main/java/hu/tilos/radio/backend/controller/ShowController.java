@@ -18,14 +18,15 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.ManagedBean;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import java.util.*;
 
 import static hu.tilos.radio.backend.MongoUtil.aliasOrId;
 
 @Path("/api/v1/show")
+@ManagedBean
 public class ShowController {
 
     private static Logger LOG = LoggerFactory.getLogger(ShowController.class);
@@ -38,7 +39,7 @@ public class ShowController {
     @Inject
     EpisodeUtil episodeUtil;
 
-    @Inject
+    //@Inject
     Session session;
 
     @Inject
@@ -93,7 +94,6 @@ public class ShowController {
     @Path("/{alias}")
     @Security(role = Role.GUEST)
     @GET
-    @Transactional
     public ShowDetailed get(@PathParam("alias") String alias) {
         DBObject one = db.getCollection("show").findOne(aliasOrId(alias));
         ShowDetailed detailed = mapper.map(one, ShowDetailed.class);
@@ -129,7 +129,6 @@ public class ShowController {
     @Path("/{show}/episodes")
     @Security(role = Role.GUEST)
     @Produces("application/json")
-    @Transactional
     public List<EpisodeData> listEpisodes(@PathParam("show") String showAlias, @QueryParam("start") long from, @QueryParam("end") long to) {
         Date fromDate = new Date();
         fromDate.setTime(from);
@@ -154,7 +153,6 @@ public class ShowController {
     @Path("/{alias}")
     @Security(permission = "/show/{alias}")
     @PUT
-    @Transactional
     public UpdateResponse update(@PathParam("alias") String alias, ShowToSave showToSave) {
         validator.validate(showToSave);
         DBObject show = findShow(alias);
@@ -176,7 +174,6 @@ public class ShowController {
     @Path("/")
     @Security(role = Role.ADMIN)
     @POST
-    @Transactional
     public CreateResponse create(ShowToSave objectToSave) {
         validator.validate(objectToSave);
         DBObject newObject = mapper.map(objectToSave, BasicDBObject.class);
