@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<head>
+    <title th:text="${page.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li ng-class="{active: tab == 'dj'}"><a ng-href="/mixes/dj">Tilos DJ Mix</a></li>
+            <li ng-class="{active: tab == 'show'}"><a href="/mixes/show">Műsorok</a></li>
+            <li ng-class="{active: tab == 'guestdj'}"><a ng-href="/mixes/guestdj">Guest DJ Mix</a></li>
+            <li ng-class="{active: tab == 'tale'}"><a href="/mixes/tale">Tilos Mese</a></li>
+        </ul>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Dátum</th>
+            <th>Mix</th>
+            <th>Meghallgat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mix : ${mixes}">
+            <td th:text="${mix.date}">{{mix.date}}</td>
+            <td><b th:text="${mix.author}">{{mix.author}}</b>: <span th:text="${mix.title}"></span></td>
+            <td class="pull-right">
+                <a ng-show="{{mix.withContent}}" class="label label-info label-episode" ng-href="/mix/{{mix.id}}">Tracklista</a>
+                <a class="label label-episode episode" th:href="${mix.link}">Meghallgat</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</th:block>
+</body>
+</html>

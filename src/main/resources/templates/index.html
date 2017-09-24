@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<head>
+    <title>Tilos Rádió</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <aside class="col-md-push-9 col-md-3">
+        <div th:insert="sidebar_right :: sidebar"></div>
+    </aside>
+
+    <section class="col-md-pull-3 col-md-6 main" role="main">
+
+        <div ng-show="next.length" class="program-guides">
+            <h2 class="blue">Műsorajánló</h2>
+
+            <div class="episode-next episode-list" th:each="episode : ${next}">
+                <h3><a th:href="${episode.url}" th:text="${episode.text.title}">Valami műsor</a></h3>
+
+                <p>
+                    <show-label show="episode.show"></show-label>
+                    <span class="pull-right main-date">{{episode.plannedFrom | date:'MMMM dd. - HH:mm'}}</span>
+
+                </p>
+            </div>
+        </div>
+        <div class="recent-broadcast-schedule">
+            <h2 class="blue top">Az elmúlt hét adásai</h2>
+
+            <div class="episode-last episode-list" data-ng-repeat="episode in lastWeek">
+
+                <h3>
+                    <listen-button class="pull-right" link="{{episode.m3uUrl}}"></listen-button>
+                    <a ng-href="{{episode.url}}">{{episode.text.title}}</a>
+                </h3>
+                <p>
+                    <show-label show="episode.show"></show-label>
+                    <span class="pull-right main-date hidden-xs">{{episode.plannedFrom | date:'yyyy. MMMM dd.'}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="recent-broadcast-schedule">
+            <h2 class="blue top">Legfrissebb adásnaplók</h2>
+
+            <div class="episode-last episode-list" data-ng-repeat="episode in last">
+                <h3>
+                    <listen-button class="pull-right" link="{{episode.m3uUrl}}"></listen-button>
+                    <a ng-href="{{episode.url}}">{{episode.text.title}}</a>
+                </h3>
+
+                <p>
+                    <show-label show="episode.show"></show-label>
+                    <span class="pull-right main-date hidden-xs">{{episode.plannedFrom | date:'yyyy. MMMM dd.'}}</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <aside class="col-md-pull-3 col-md-3">
+        <div class="box">
+            <h2><a target="_blank">Tilos hírek</a></h2>
+            <article class="news-lead" th:each="text : ${news}">
+                <h3><a th:href="'/news/'+${text.id}" th:text="${text.title}">{{text.title}}</a></h3>
+                <span th:utext="${text.leadFormatted}"></span>
+                <a ng-show="text.longText" class="btn btn-small btn-info pull-right" th:href="'/news/'+${text.id}">Részletek...</a>
+            </article>
+        </div>
+    </aside>
+
+
+</th:block>
+</body>
+</html>

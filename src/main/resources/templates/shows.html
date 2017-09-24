@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<head>
+    <title>Műsorok</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <div class="row">
+        <div class="col-md-6">
+            <a target="_blank" ng-href="/api/v1/scheduling" class="btn btn-warning btn-lg pull-right">Heti
+                műsortábla</a>
+        </div>
+    </div>
+
+
+    <div class="shows-page">
+
+        <div class="row">
+            <section class="col-md-6 main" role="main">
+                <h1>Beszélgetős műsorok</h1>
+                <table class="table">
+                    <tr th:each="show : ${musicshows}">
+                        <td>
+                            <a class="label label-default label-show" th:href="'/show/' + ${show.alias}"
+                               th:text="${show.name}">
+                                Harmadik utas&nbsp;<i ng-show="ctrl.icon" class="{{$ctrl.icon}}"></i>
+                            </a>
+                        </td>
+                        <td><i th:text="${show.definition}">></i></td>
+                    </tr>
+                </table>
+
+            </section>
+
+            <section class="col-md-6 main" role="main">
+                <h1>Zenés műsorok</h1>
+                <table class="table">
+                    <tr th:each="show : ${speechshows}">
+                        <td>
+                            <a class="label label-default label-show" th:href="'/show/' + ${show.alias}"
+                               th:text="${show.name}">
+                                Harmadik utas&nbsp;<i ng-show="ctrl.icon" class="{{$ctrl.icon}}"></i>
+                            </a>
+                        </td>
+                        <td><i th:text="${show.definition}">></i></td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

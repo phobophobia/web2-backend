@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<head>
+    <title>Műsorok</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <section class="col-md-9 main show" role="main">
+        <h1 class="ubuntu" th:text="${show.name}">3. utas</h1>
+        <p class="show-definition" th:text="${show.definition}"></p>
+        <ul class="nav nav-tabs" role="tablist">
+            <li ><a th:href="'/show/' + ${show.alias}">Archívum</a></li>
+            <li class="active"><a th:href="'/show/' + ${show.alias} + '/intro'">Bemutatkozás</a></li>
+            <li ><a th:href="'/show/' + ${show.alias} + '/mixes'">Mixek <span
+                    ng-show="show.stats.mixCount > 0" class="badge" th:text="${show.stats.mixCount}"></span></a>
+            </li>
+        </ul>
+        <section>
+            <span class="textual" th:utext="${show.description}"></span></br>
+        </section>
+    </section>
+
+    <aside class="col-md-3">
+        <div class="panel panel-default" ng-show="show.urls.length > 0">
+            <div class="panel-heading">Linkek</div>
+            <div class="panel-body">
+
+                <div class="show-links">
+
+                    <p th:each="url : ${show.urls}">
+                        <a ng-class="url.type" class="btn btn-danger" th:href="${url.address}" th:text="${url.label}">
+                            <span th:class="${url.icon}"></span></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div th:include="show_sidebar :: sidebar"></div>
+    </aside>
+
+
+</th:block>
+</body>
+</html>

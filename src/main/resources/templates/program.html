@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<head>
+    <title>Tilos Rádió archívum</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <section class="col-md-12 main" role="main">
+        <h1 style="float: left;">Archívum</h1>
+        <a class="btn btn-warning btn-lg pull-right" style="margin-top: 20px;" href="/api/v1/scheduling"
+           target="_blank">heti műsortábla</a>
+        <nav class="text-center">
+            <ul class="pagination pagination-lg">
+                <li class="cursorPointer"><a ng-click="prev()">&larr; Előző nap</a></li>
+                <li class="cursorPointer" ng-click="open()">
+                    <div class="DatePicker form-horizontald" id="datapicker">
+
+                        <button class="btn ChooseDate" ng-click="open()">
+                            <i class="icon-calendar"></i>
+                        </button>
+                        <input type="text" class="datepicker" uib-datepicker-popup="yyyy.MM.dd" show-weeks="false"
+                               ng-model="selectedDate" is-open="opened" min="minDate" max="maxDate"
+                               datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                               ng-required="true" ng-change="goto();" ng-click="open($event)">
+                        {{selectedDate | date:'EEEE'}}
+                    </div>
+                </li>
+                <li class="cursorPointer"><a ng-click="next()">Következő nap &rarr;</a></li>
+            </ul>
+
+        </nav>
+
+
+        <div class="clearfix">
+
+
+        </div>
+
+
+        </div>
+        <table class="table table-hover" id="archiveTable">
+            <div class="panel program" th:each="episode : ${episodes}">
+                <div class="panel-heading">
+                    <span class="time" th:text="${#dates.format(episode.plannedFrom,'HH:mm')}">13:33</span>
+
+                    <span th.show="${episode.m3uUrl}" class="pull-right listen-component btn-group" role="group">
+                            <a ng-href="{{link}}" target="_self" class="btn btn-danger listen-button"><i
+                                    class="icon-headphone"></i></a>
+                            <a ng-href="{{mp3Link}}" target="_self" class="btn btn-warning download-button"><i
+                                    class="icon-play"></i></a>
+                            <a ng-href="{{downloadLink}}" target="_self" class="btn btn-success download-button"><i
+                                    class="icon-arrow-down"></i></a>
+                        </span>
+
+
+                    <span th:replace="show_fragments :: show-label(${episode.show})"></span>
+                    <span th:if="${episode.extra}" class="label label-small label-danger">extra</span>
+                    <a class="title" th:href="${episode.url}" th:if="${episode.text}" th:text="${episode.text.title}">Valami epizod</a>
+                    </span>
+                </div>
+            </div>
+        </table>
+    </section>
+
+</th:block>
+</body>
+</html>

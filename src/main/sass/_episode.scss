@@ -1,0 +1,8 @@
+#episode img{
+    @extend .img-responsive;
+    @extend .img-thumbnail;
+}
+
+#episode iframe {
+    @extend .center-block;
+}

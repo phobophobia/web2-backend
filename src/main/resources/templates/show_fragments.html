@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+</head>
+<body>
+<a th:fragment="show-label(show)" class="{{$ctrl.labelstyle}} label label-default label-show"
+   th:href="'/show/'+${show.alias}">
+    <span th:text="${show.name}"></span>&nbsp;<i ng-show="ctrl.icon" class="{{$ctrl.icon}}"></i>
+</a>
+</body>
+</html>
